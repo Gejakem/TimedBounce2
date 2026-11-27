@@ -27,10 +27,6 @@ TimedBounce2 needs the **Bounce2** library. Install Bounce2 first through the Li
 2. In the Arduino IDE, choose **Sketch → Include Library → Add .ZIP Library...** and select the downloaded ZIP.
 3. The example is then available under **File → Examples → TimedBounce2**.
 
-## Manual
-
-Copy the `TimedBounce2` folder into your Arduino `libraries` folder and restart the IDE.
-
 ## Library structure
 
 ```
@@ -112,12 +108,12 @@ enum class PressType : uint8_t { None, Short, Medium, Long };
 
 `TimedBounce2` adds the following methods to the ones it inherits from `Bounce2::Button`:
 
-| Method | Description |
-| --- | --- |
-| `void init(uint8_t pin, uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin, uint16_t debounceMs = 10)` | Attaches the pin with `INPUT_PULLUP`, sets pressed state to `LOW`, and sets the debounce interval and timings. Call it only once per button, before the first `update()`; normally in `setup()`. Calling it again resets the button. Use `setTimings()` to change timings later. |
-| `void setTimings(uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin)` | Changes the timings at runtime. |
-| `PressType update()` | Updates the button and returns the event of this update, or `PressType::None`. Call it once per `loop()`. |
-| `unsigned long heldMs() const` | How long the button has been held so far in ms, or 0 when released. Useful for feedback, such as blinking an LED when a long press is near. |
+|Method|Description|
+|-|-|
+|`void init(uint8_t pin, uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin, uint16_t debounceMs = 10)`|Attaches the pin with `INPUT_PULLUP`, sets pressed state to `LOW`, and sets the debounce interval and timings. Call it only once per button, before the first `update()`; normally in `setup()`. Calling it again resets the button. Use `setTimings()` to change timings later.|
+|`void setTimings(uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin)`|Changes the timings at runtime.|
+|`PressType update()`|Updates the button and returns the event of this update, or `PressType::None`. Call it once per `loop()`.|
+|`unsigned long heldMs() const`|How long the button has been held so far in ms, or 0 when released. Useful for feedback, such as blinking an LED when a long press is near.|
 
 All timings are in milliseconds. If you don't want any gaps between the ranges, set `mediumMin` equal to `shortMax`, and `mediumMax` just below `longMin`.
 
@@ -131,16 +127,16 @@ All timings are in milliseconds. If you don't want any gaps between the ranges, 
 
 TimedBounce2 only uses standard Arduino functions and C++11. All pin access goes through Bounce2 (`pinMode()`, `digitalRead()`, `millis()`), so it should work wherever Bounce2 works. It has not been tested on every board.
 
-| Family | Examples | Notes |
-| --- | --- | --- |
-| AVR | Uno, Nano, Mega, Leonardo, Pro Mini | Works. |
-| ATtiny | ATTinyCore, megaTinyCore | Works. Mind the small RAM. The demo uses `Serial`. |
-| megaAVR, SAMD, Renesas, mbed | Nano Every, Zero, MKR, Nano 33 IoT/BLE, Uno R4, Portenta, Giga | Should work. These cores use ArduinoCore-API (`PinMode` enum). |
-| ESP8266 | NodeMCU, Wemos D1 | Works. GPIO16 has no internal pull-up. GPIO0/2/15 affect how the board boots. |
-| ESP32 | ESP32, S2, S3, C3, C6 | Works. GPIO34–39 on the classic ESP32 have no internal pull-up. Avoid pins that affect how the board boots (such as GPIO0 and GPIO12). |
-| STM32 | STM32duino, Roger Clark STM32F1 core | Works. Bounce2 handles the STM32F1 core. |
-| RP2040 / RP2350 | Raspberry Pi Pico (Philhower or mbed core) | Works. |
-| Others | Teensy, Adafruit nRF52, Due | Works. |
+|Family|Examples|Notes|
+|-|-|-|
+|AVR|Uno, Nano, Mega, Leonardo, Pro Mini|Works.|
+|ATtiny|ATTinyCore, megaTinyCore|Works. Mind the small RAM. The demo uses `Serial`.|
+|megaAVR, SAMD, Renesas, mbed|Nano Every, Zero, MKR, Nano 33 IoT/BLE, Uno R4, Portenta, Giga|Should work. These cores use ArduinoCore-API (`PinMode` enum).|
+|ESP8266|NodeMCU, Wemos D1|Works. GPIO16 has no internal pull-up. GPIO0/2/15 affect how the board boots.|
+|ESP32|ESP32, S2, S3, C3, C6|Works. GPIO34–39 on the classic ESP32 have no internal pull-up. Avoid pins that affect how the board boots (such as GPIO0 and GPIO12).|
+|STM32|STM32duino, Roger Clark STM32F1 core|Works. Bounce2 handles the STM32F1 core.|
+|RP2040 / RP2350|Raspberry Pi Pico (Philhower or mbed core)|Works.|
+|Others|Teensy, Adafruit nRF52, Due|Works.|
 
 Notes:
 
@@ -153,3 +149,4 @@ Notes:
 GNU General Public License v3.0. See [LICENSE](LICENSE).
 
 Bounce2 is a separate library, licensed under MIT by Thomas O Fredericks and contributors.
+
