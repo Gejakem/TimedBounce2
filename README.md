@@ -30,8 +30,7 @@ TimedBounce2/
 │   ├── TimedBounce2.h
 │   └── TimedBounce2.cpp
 └── examples/
-    └── TimedBounce2Demo/
-        └── TimedBounce2Demo.ino
+    └── TimedBounce2Demo.ino
 ```
 
 # Wiring
