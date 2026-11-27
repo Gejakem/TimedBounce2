@@ -114,7 +114,7 @@ enum class PressType : uint8_t { None, Short, Medium, Long };
 
 | Method | Description |
 | --- | --- |
-| `void init(uint8_t pin, uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin, uint16_t debounceMs = 10)` | Attaches the pin with `INPUT_PULLUP`, sets pressed state to `LOW`, and sets the debounce interval and timings. Call it in `setup()`. |
+| `void init(uint8_t pin, uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin, uint16_t debounceMs = 10)` | Attaches the pin with `INPUT_PULLUP`, sets pressed state to `LOW`, and sets the debounce interval and timings. Call it only once per button, before the first `update()`; normally in `setup()`. Calling it again resets the button. Use `setTimings()` to change timings later. |
 | `void setTimings(uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin)` | Changes the timings at runtime. |
 | `PressType update()` | Updates the button and returns the event of this update, or `PressType::None`. Call it once per `loop()`. |
 | `unsigned long heldMs() const` | How long the button has been held so far in ms, or 0 when released. Useful for feedback, such as blinking an LED when a long press is near. |
