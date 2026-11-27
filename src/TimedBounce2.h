@@ -13,7 +13,7 @@ public:
   //   released between mediumMin..mediumMax -> Medium
   //   held for longMin (fires while held)   -> Long
   //   anything else (gaps)                  -> ignored
-  void setup(uint8_t pin, uint16_t shortMax, uint16_t mediumMin,
+  void init(uint8_t pin, uint16_t shortMax, uint16_t mediumMin,
              uint16_t mediumMax, uint16_t longMin, uint16_t debounceMs = 10);
 
   void setTimings(uint16_t shortMax, uint16_t mediumMin,

@@ -1,6 +1,6 @@
 #include "TimedBounce2.h"
 
-void TimedBounce2::setup(uint8_t pin, uint16_t shortMax, uint16_t mediumMin,
+void TimedBounce2::init(uint8_t pin, uint16_t shortMax, uint16_t mediumMin,
                         uint16_t mediumMax, uint16_t longMin, uint16_t debounceMs) {
   setPressedState(LOW);
   interval(debounceMs);
