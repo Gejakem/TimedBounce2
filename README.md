@@ -146,7 +146,6 @@ Notes:
 
 # License
 
-GNU General Public License v3.0. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
 
-Bounce2 is a separate library, licensed under MIT by Thomas O Fredericks and contributors.
-
+Bounce2 is a separate library, also licensed under MIT, by Thomas O Fredericks and contributors.
