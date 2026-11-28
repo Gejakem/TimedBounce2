@@ -42,3 +42,13 @@ PressType TimedBounce2::update() {
 unsigned long TimedBounce2::heldMs() const {
   return isPressed() ? currentDuration() : 0;
 }
+
+HoldZone TimedBounce2::holdZone() const {
+  if (!isPressed()) return HoldZone::Idle;
+
+  const unsigned long t = currentDuration();
+  if (t < _shortMax) return HoldZone::Short;
+  if (t >= _mediumMin && t <= _mediumMax) return HoldZone::Medium;
+  if (t >= _longMin) return HoldZone::Long;
+  return HoldZone::Gap;  // Between shortMax..mediumMin or mediumMax..longMin
+}

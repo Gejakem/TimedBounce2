@@ -1,5 +1,7 @@
 # TimedBounce2
 
+**Version 1.1.0**
+
 Short, medium and long press detection for Arduino, built on top of [Bounce2](https://github.com/thomasfredericks/Bounce2).
 
 `TimedBounce2` extends `Bounce2::Button` and turns button presses into simple events:
@@ -100,22 +102,54 @@ See `examples/TimedBounce2Demo` for a complete sketch.
 
 ## PressType
 
+*Since 1.0.0*
+
 ```cpp
 enum class PressType : uint8_t { None, Short, Medium, Long };
+```
+
+## HoldZone
+
+*Since 1.1.0*
+
+```cpp
+enum class HoldZone : uint8_t { Idle, Short, Gap, Medium, Long };
 ```
 
 ## TimedBounce2
 
 `TimedBounce2` adds the following methods to the ones it inherits from `Bounce2::Button`:
 
-|Method|Description|
-|-|-|
-|`void init(uint8_t pin, uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin, uint16_t debounceMs = 10)`|Attaches the pin with `INPUT_PULLUP`, sets pressed state to `LOW`, and sets the debounce interval and timings. Call it only once per button, before the first `update()`; normally in `setup()`. Calling it again resets the button. Use `setTimings()` to change timings later.|
-|`void setTimings(uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin)`|Changes the timings at runtime.|
-|`PressType update()`|Updates the button and returns the event of this update, or `PressType::None`. Call it once per `loop()`.|
-|`unsigned long heldMs() const`|How long the button has been held so far in ms, or 0 when released. Useful for feedback, such as blinking an LED when a long press is near.|
+|Method|Since|Description|
+|-|-|-|
+|`void init(uint8_t pin, uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin, uint16_t debounceMs = 10)`|1.0.0|Attaches the pin with `INPUT_PULLUP`, sets pressed state to `LOW`, and sets the debounce interval and timings. Call it only once per button, before the first `update()`; normally in `setup()`. Calling it again resets the button. Use `setTimings()` to change timings later.|
+|`void setTimings(uint16_t shortMax, uint16_t mediumMin, uint16_t mediumMax, uint16_t longMin)`|1.0.0|Changes the timings at runtime.|
+|`PressType update()`|1.0.0|Updates the button and returns the event of this update, or `PressType::None`. Call it once per `loop()`.|
+|`unsigned long heldMs() const`|1.0.0|How long the button has been held so far in ms, or 0 when released. Useful for feedback, such as blinking an LED when a long press is near.|
+|`HoldZone holdZone() const`|1.1.0|The zone the current press is in, using the same timings as `update()`: `Idle` (not pressed), `Short`, `Gap`, `Medium` or `Long`. `Gap` covers both the range between `shortMax` and `mediumMin` and the range between `mediumMax` and `longMin`. Watch it for changes to give feedback while the button is held.|
 
 All timings are in milliseconds. If you don't want any gaps between the ranges, set `mediumMin` equal to `shortMax`, and `mediumMax` just below `longMin`.
+
+# Feedback while holding
+
+*Since 1.1.0*
+
+Use `holdZone()` to give feedback before the button is released, for example flashing an LED when releasing would give a medium press:
+
+```cpp
+void loop() {
+  const PressType ev = button.update();
+
+  static HoldZone lastZone = HoldZone::Idle;
+  const HoldZone zone = button.holdZone();
+  if (zone != lastZone) {
+    lastZone = zone;
+    digitalWrite(LED_PIN, zone == HoldZone::Medium ? HIGH : LOW);  // LED on: release now for Medium
+  }
+
+  // Handle ev as usual
+}
+```
 
 # Notes
 
@@ -143,6 +177,11 @@ Notes:
 * 3.3 V boards are fine, because the button switches to GND.
 * It does not work without the Arduino API, for example plain ESP-IDF, STM32Cube/HAL or Linux on a Raspberry Pi.
 * `millis()` overflow (after about 49 days) is handled correctly.
+
+# Changelog
+
+* **1.1.0**: Added `HoldZone` and `holdZone()` for feedback while the button is held.
+* **1.0.0**: First release.
 
 # License
 

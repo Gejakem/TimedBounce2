@@ -1,0 +1,8 @@
+# Visual Studio / Visual Micro project files
+*.vcxitems
+*.vcxitems.filters
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+.vs/
+__vm/
